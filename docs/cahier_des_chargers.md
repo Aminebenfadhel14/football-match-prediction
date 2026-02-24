@@ -1,65 +1,69 @@
-# Cahier des charges — Prédiction du vainqueur d’un match de football
+# Cahier des charges - Football BI Predictor
 
-## 1. Objectif
-Créer un modèle de Data Science capable de prédire le résultat d’un match de football à partir des données historiques.
-Le modèle devra prédire :
-- soit le résultat en 3 classes : Domicile (1) / Nul (X) / Extérieur (2)
-- soit une version binaire : victoire domicile vs non-victoire domicile (optionnel)
+## 1. Contexte
+Projet academique de Data Science / BI pour predire le resultat des matchs et estimer, de maniere probabiliste, les chances de titre par equipe.
 
-## 2. Données
-### Sources prévues
-- Dataset “match-level” (historique des matchs : équipes, date, score, éventuellement stats)
-- Option d’amélioration : StatsBomb Open Data (lineups + événements) pour intégrer l’impact des joueurs.
+## 2. Objectif principal
+Fournir une solution complete de Business Intelligence pour predire, de maniere probabiliste et explicable, l'equipe ayant le plus de chances de remporter la competition.
 
-### Données utilisées (minimum)
-- Date du match
-- Équipe domicile / extérieur
-- Buts domicile / extérieur (pour créer la variable cible)
-- Ligue / saison (si disponible)
-
-### Données dérivées (features)
-- Forme récente (sur les 5 derniers matchs) : points, buts marqués/encaissés
-- Avantage domicile
-- Jours de repos depuis le dernier match
-- Classement de force type Elo (calculé à partir des résultats)
-- (Amélioration) Indicateurs joueurs : absences des joueurs clés, stabilité du XI
-
-## 3. Périmètre du projet
+## 3. Perimetre
 ### Inclus
-- Collecte/chargement des données
-- Nettoyage et préparation (valeurs manquantes, doublons, types)
-- Analyse exploratoire (EDA) + visualisations
-- Construction des features (rolling stats, Elo)
-- Entraînement de plusieurs modèles (baseline + modèles avancés)
-- Évaluation avec métriques adaptées
-- Interprétation : importance des variables, analyse d’erreurs
-- Rapport final + README + instructions d’exécution
+- Ingestion de donnees historiques (5 ligues europeennes)
+- Preprocessing (types, valeurs manquantes, qualite)
+- Feature engineering pre-match (sans fuite de donnees)
+- EDA avec visualisations BI
+- Entrainement d'un modele probabiliste multi-classes (H / D / A)
+- Explainability globale du modele
+- Simulation Monte Carlo des probabilites champion
+- Documentation et scripts d'execution
 
-### Non inclus (pour rester faisable)
-- Prédiction “en temps réel” sur matchs du jour
-- Scraping de sites interdits ou bloquants
-- Modèles deep learning lourds (sauf bonus)
+### Non inclus
+- Donnees live minute par minute
+- Integration betting odds en temps reel
+- MLOps de production cloud (option extension)
 
-## 4. Méthodologie
-- Découpage temporel : entraînement sur saisons anciennes, test sur saisons récentes (éviter fuite de données)
-- Baseline : règle simple (ex : Elo seul / forme seule)
-- Modèles ML : Logistic Regression, RandomForest / XGBoost (si autorisé), CatBoost (optionnel)
+## 4. Ligues cibles
+```python
+LEAGUES = {
+    "EPL": "english-premier-league",
+    "LaLiga": "spanish-la-liga",
+    "SerieA": "italian-serie-a",
+    "Bundesliga": "german-bundesliga",
+    "Ligue1": "french-ligue-1",
+}
+```
 
-## 5. Métriques
-- 3 classes : Accuracy, F1-macro, matrice de confusion
-- Binaire : ROC-AUC + PR-AUC si déséquilibre
-- Comparaison baseline vs modèle final
+## 5. Methodologie
+1. Setup dossier projet
+2. Ingestion
+3. Preprocessing
+4. Feature engineering
+5. EDA/BI
+6. Model training
+7. Explainability
+8. Simulation champion
 
-## 6. Livrables
-- Repo Git structuré
-- Notebook(s) EDA et Modélisation
-- Code réutilisable dans `src/`
-- Rapport synthèse (PDF ou Markdown)
-- README complet (installation + exécution)
+## 6. Metriques
+### Prediction match
+- Accuracy
+- F1 Macro
+- Log Loss
+- Matrice de confusion
 
-## 7. Répartition du travail
-- Dev A : ingestion données + EDA + baseline
-- Dev B : feature engineering + modèles + évaluation
-- Travail commun : rédaction rapport + README
+### Simulation champion
+- Probabilite champion par equipe
+- Probabilite Top 3
+- Points attendus
 
+## 7. Livrables
+- Scripts numerotes dans `code/`
+- Modules reutilisables dans `src/football_bi/`
+- Datasets preprocesses dans `data/processed/football_bi/`
+- Rapports BI dans `reports/football_bi/`
+- Modele sauvegarde dans `models/football_bi/`
+- README projet complet
 
+## 8. Criteres de qualite
+- Code propre, modulaire, documente
+- Pipeline reproductible de bout en bout
+- Sorties explicables et exploitables par metier
